@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
+import productsApi from "apis/products";
+// import axios from "axios";
 import { Spinner } from "neetoui";
 import { isNotNil, append } from "ramda";
 
@@ -12,9 +13,7 @@ const Product = () => {
   const fetchProductData = async () => {
     const timerPromise = new Promise(resolve => setTimeout(resolve, 3000));
     try {
-      const response = await axios.get(
-        "https://smile-cart-backend-staging.neetodeployapp.com/products/infinix-inbook-2"
-      );
+      const response = await productsApi.show();
       await timerPromise;
       setProduct(response.data);
       // Process the response data as needed
