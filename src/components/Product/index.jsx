@@ -2,22 +2,28 @@ import React, { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
 // import axios from "axios";
-import { Spinner } from "neetoui";
+import { Header, PageLoader, PageNotFound } from "components/commons";
 import { isNotNil, append } from "ramda";
+import { useParams } from "react-router-dom";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  const { slug } = useParams();
+
   const fetchProductData = async () => {
     const timerPromise = new Promise(resolve => setTimeout(resolve, 3000));
     try {
-      const product = await productsApi.show();
+      const product = await productsApi.show(slug);
       await timerPromise;
       setProduct(product);
       // Process the response data as needed
     } catch (error) {
+      setIsError(true);
       console.error("Error fetching product data:", error);
     } finally {
       setIsLoading(false);
@@ -26,27 +32,23 @@ const Product = () => {
 
   useEffect(() => {
     fetchProductData();
-  }, []);
+  }, [slug]);
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <PageLoader />;
+  }
+
+  if (isError) {
+    return <PageNotFound />;
   }
 
   const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
-  product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
   return (
     <div className="px-6 pb-6">
-      <div>
-        <p className="py-2 text-4xl font-semibold">{name}</p>
-        <hr className="border-2 border-black" />
-      </div>
-      <div className="mt-16·flex·gap-4">
+      <Header title={name} />
+      <div className="mt-16 flex gap-4">
         <div className="w-2/5">
           <div className="flex justify-center gap-16">
             {isNotNil(imageUrls) ? (
