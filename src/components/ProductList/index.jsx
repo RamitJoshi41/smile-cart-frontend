@@ -12,7 +12,7 @@ const ProductList = () => {
   const [searchKey, setSearchKey] = useState("");
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
   const debouncedSearchKey = useDebounce(searchKey);
 
   const fetchProduct = async () => {
@@ -28,16 +28,17 @@ const ProductList = () => {
     }
   };
 
-  const toggleIsInCart = slug => {
-    setCartItems(prevCartItems =>
-      !prevCartItems.includes(slug)
-        ? [slug, ...prevCartItems]
-        : prevCartItems.filter(item => item !== slug)
-    );
-  };
+  // const toggleIsInCart = slug => {
+  //   setCartItems(prevCartItems =>
+  //     !prevCartItems.includes(slug)
+  //       ? [slug, ...prevCartItems]
+  //       : prevCartItems.filter(item => item !== slug)
+  //   );
+  // };
 
   useEffect(() => {
     fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchKey]);
 
   if (isLoading) {
@@ -57,7 +58,7 @@ const ProductList = () => {
     <div className="flex flex-col">
       <Header
         actionBlock={actionBlock}
-        cartItemsCount={cartItems.length}
+        // cartItemsCount={cartItems.length}
         shouldShowBackButton={false}
         title="Smile Cart"
       />
@@ -67,10 +68,10 @@ const ProductList = () => {
         <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map(product => (
             <ProductListItem
-              isInCart={cartItems.includes(product.slug)}
+              // isInCart={cartItems.includes(product.slug)}
               key={product.slug}
               {...product}
-              toggleIsInCart={() => toggleIsInCart(product.slug)}
+              // toggleIsInCart={() => toggleIsInCart(product.slug)}
             />
           ))}
         </div>
