@@ -6,7 +6,9 @@ import useCartItemsStore from "stores/useCartItemsStore";
 
 const Header = ({ actionBlock, title, shouldShowBackButton = true }) => {
   const history = useHistory();
-  const cartItemsCount = useCartItemsStore(store => store.cartItems.length);
+  const cartItemsCount = useCartItemsStore(
+    store => Object.keys(store.cartItems).length
+  );
 
   return (
     <div className="m-2">

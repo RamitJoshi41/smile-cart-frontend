@@ -1,34 +1,37 @@
 // import { useContext } from "react";
 
+import useSelectedQuantity from "hooks/useSelectedQuantity";
 import { Button } from "neetoui";
+
+import ProductQuantity from "./ProductQuantity";
 // import { without } from "ramda";
 // import CartItemsContext from "src/contexts/CartItemContext";
-import useCartItemsStore from "stores/useCartItemsStore";
-import { shallow } from "zustand/shallow";
+// import useCartItemsStore from "stores/useCartItemsStore";
+// import { shallow } from "zustand/shallow";
 
-const AddToCart = ({ slug }) => {
+const AddToCart = ({ slug, availableQuantity }) => {
   // const [cartItems, setCartItems] = useContext(CartItemsContext);
-  const { isInCart, toggleIsInCart } = useCartItemsStore(
-    store => ({
-      isInCart: store.cartItems.includes(slug),
-      toggleIsInCart: store.action.toggleIsInCart,
-    }),
-    shallow
-  );
+  const { itemCount, setSelectedQuantity } = useSelectedQuantity(slug);
 
   const handleClick = e => {
     e.stopPropagation();
     e.preventDefault();
 
-    toggleIsInCart(slug);
+    setSelectedQuantity(1);
   };
 
-  return (
-    <Button
-      label={isInCart ? "Remove from cart" : "Add to cart"}
-      size="large"
-      onClick={handleClick}
-    />
-  );
+  if (itemCount <= 0) {
+    return (
+      <Button
+        label="Add to cart" // No ternary needed here anymore!
+        size="large"
+        onClick={handleClick}
+      />
+    );
+  }
+
+  // 2. If the code makes it this far, the item IS in the cart.
+  // Return the quantity component.
+  return <ProductQuantity availableQuantity={availableQuantity} slug={slug} />;
 };
 export default AddToCart;

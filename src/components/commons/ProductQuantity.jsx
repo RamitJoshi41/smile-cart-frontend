@@ -1,0 +1,39 @@
+import useSelectedQuantity from "hooks/useSelectedQuantity";
+import { Button, Input } from "neetoui";
+
+const ProductQuantity = ({ slug, availableQuantity }) => {
+  const { itemCount, setSelectedQuantity } = useSelectedQuantity(slug);
+
+  const preventNavigation = e => (e.stopPropagation(), e.preventDefault());
+
+  return (
+    <div className="neeto-ui-border-black neeto-ui-rounded inline-flex flex-row items-center border">
+      <Button
+        className="focus-within:ring-0"
+        label="-"
+        style="text"
+        onClick={e => {
+          preventNavigation(e);
+          setSelectedQuantity(itemCount - 1);
+        }}
+      />
+      <Input
+        className="items-center text-center"
+        value={itemCount}
+        onClick={e => preventNavigation(e)}
+      />
+      <Button
+        className="focus-within:ring-0"
+        disabled={itemCount >= availableQuantity}
+        label="+"
+        style="text"
+        onClick={e => {
+          preventNavigation(e);
+          setSelectedQuantity(itemCount + 1);
+        }}
+      />
+    </div>
+  );
+};
+
+export default ProductQuantity;
