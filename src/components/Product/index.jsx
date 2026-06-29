@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 import productsApi from "apis/products";
 // import axios from "axios";
 import { Header, PageLoader, PageNotFound } from "components/commons";
+import AddToCart from "components/commons/AddToCart";
+import useSelectedQuantity from "hooks/useSelectedQuantity";
+import { Button } from "neetoui";
 import { isNotNil, append } from "ramda";
 import { useParams } from "react-router-dom";
+import routes from "routes";
 
 import Carousel from "./Carousel";
 
@@ -14,6 +18,7 @@ const Product = () => {
   const [isError, setIsError] = useState(false);
 
   const { slug } = useParams();
+  const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
   const fetchProductData = async () => {
     const timerPromise = new Promise(resolve => setTimeout(resolve, 3000));
@@ -32,6 +37,7 @@ const Product = () => {
 
   useEffect(() => {
     fetchProductData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
   if (isLoading) {
     return <PageLoader />;
@@ -65,6 +71,19 @@ const Product = () => {
           <p className="font-semibold text-green-600">
             {discountPercentage}% off
           </p>
+          <div className="flex flex-col items-center gap-2 pt-4">
+            <AddToCart
+              availableQuantity={product.availableQuantity}
+              slug={slug}
+            />
+            <hr className="border-gray-900" />
+            <Button
+              className="bg-neutral-800 hover:bg-neutral-950 h-10 w-full justify-center"
+              label="Buy now"
+              to={routes.checkout}
+              onClick={() => setSelectedQuantity(selectedQuantity || 1)}
+            />
+          </div>
         </div>
       </div>
     </div>

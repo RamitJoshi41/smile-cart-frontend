@@ -18,9 +18,20 @@ const ProductQuantity = ({ slug, availableQuantity }) => {
         }}
       />
       <Input
-        className="items-center text-center"
+        className="ml-2"
+        contentSize="4"
         value={itemCount}
         onClick={e => preventNavigation(e)}
+        onChange={e => {
+          preventNavigation(e);
+          const val = e.target.value;
+          if (/^\d*$/.test(val)) {
+            const parsedVal = parseInt(val, 10) || 0;
+            if (parsedVal <= availableQuantity) {
+              setSelectedQuantity(parsedVal);
+            }
+          }
+        }}
       />
       <Button
         className="focus-within:ring-0"

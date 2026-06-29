@@ -23,6 +23,7 @@ const AddToCart = ({ slug, availableQuantity }) => {
   if (itemCount <= 0) {
     return (
       <Button
+        className="bg-neutral-800 hover:bg-neutral-950 w-full justify-center"
         label="Add to cart" // No ternary needed here anymore!
         size="large"
         onClick={handleClick}

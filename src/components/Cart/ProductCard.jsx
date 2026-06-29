@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+
+import { Delete } from "@bigbinary/neeto-icons";
+import ProductQuantity from "components/commons/ProductQuantity";
+import { Typography, Alert } from "neetoui";
+import useCartItemsStore from "stores/useCartItemsStore";
+
+const ProductCard = ({
+  slug,
+  imageUrl,
+  offerPrice,
+  mrp,
+  name,
+  availableQuantity,
+}) => {
+  const removeSelectedQuantity = useCartItemsStore(
+    store => store.removeSelectedQuantity
+  );
+  const [shouldShowDeleteAlert, setShouldShowDeleteAlert] = useState(false);
+
+  return (
+    <div className="neeto-ui-rounded neeto-ui-border-black border p-2">
+      <div className="w-fit flex items-center space-x-5">
+        <img alt={name} height={80} src={imageUrl} width={80} />
+        <div className="flex-grow space-y-1">
+          <Typography className="mb-2" style="h4" weight="bold">
+            {name}
+          </Typography>
+          <Typography style="body2">MRP: ${mrp}</Typography>
+          <Typography style="body2">Offer price: ${offerPrice}</Typography>
+        </div>
+        <div className="">
+          <ProductQuantity {...{ availableQuantity, slug }} />
+        </div>
+        <div>
+          <Delete
+            className="cursor-pointer text-gray-500 hover:text-red-600"
+            onClick={() => {
+              setShouldShowDeleteAlert(true);
+            }}
+          />
+        </div>
+      </div>
+      <Alert
+        isOpen={shouldShowDeleteAlert}
+        submitButtonLabel="Yes"
+        title="Delete Product"
+        onClose={() => setShouldShowDeleteAlert(false)}
+        onSubmit={() => {
+          removeSelectedQuantity(slug);
+          setShouldShowDeleteAlert(false); // Close the modal after deleting!
+        }}
+      />
+    </div>
+  );
+};
+
+export default ProductCard;
