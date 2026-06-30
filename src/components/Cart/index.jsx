@@ -8,7 +8,7 @@ import { NoData } from "neetoui";
 import useCartItemsStore from "stores/useCartItemsStore";
 // import useSelectedQuantity from "hooks/useSelectedQuantity";
 import toastr from "toastr";
-import { shallow } from "zustand/shallow";
+// import { shallow } from "zustand/shallow";
 
 import PriceCard from "./PriceCard";
 import ProductCard from "./ProductCard";
@@ -18,13 +18,7 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
   // const { itemCount } = useSelectedQuantity(slug)
 
-  const { cartItems, setSelectedQuantity } = useCartItemsStore(
-    store => ({
-      cartItems: store.cartItems,
-      setSelectedQuantity: store.setSelectedQuantity,
-    }),
-    shallow
-  );
+  const { cartItems, setSelectedQuantity } = useCartItemsStore.pick();
   const slugs = Object.keys(cartItems);
 
   const fetchCartProducts = async () => {
