@@ -8,5 +8,16 @@
   "productMrp": "MRP: ${{mrp}}",
   "productOfferPrice": "Offer price: ${{offerPrice}}",
   "deleteProduct": "Delete Product",
-  "yes": "Obliterate"
+  "yes": "Obliterate",
+  "title": "Smile Cart",
+  "pageTitle": "{{title}} | Smile Cart",
+  "cart": {
+    "title": "My cart"
+  },
+  "product": {
+    "title": "Product"
+  },
+  "productlist": {
+    "title": "Product List"
+  }
 }

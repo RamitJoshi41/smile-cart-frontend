@@ -5,6 +5,8 @@ import { Header, PageLoader } from "components/commons";
 import useDebounce from "hooks/useDebounce";
 import { Input, NoData } from "neetoui";
 import { isEmpty } from "ramda";
+import i18n from "src/common/i18n";
+import withTitle from "utils/withTitle";
 
 import ProductListItem from "./ProductListItem";
 
@@ -80,4 +82,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default withTitle(ProductList, i18n.t("productlist.title"));
