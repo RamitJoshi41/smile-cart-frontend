@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Delete } from "@bigbinary/neeto-icons";
 import ProductQuantity from "components/commons/ProductQuantity";
 import { Typography, Alert } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useCartItemsStore from "stores/useCartItemsStore";
 
 const ProductCard = ({
@@ -13,6 +14,7 @@ const ProductCard = ({
   name,
   availableQuantity,
 }) => {
+  const { t } = useTranslation();
   const removeSelectedQuantity = useCartItemsStore(
     store => store.removeSelectedQuantity
   );
@@ -26,8 +28,10 @@ const ProductCard = ({
           <Typography className="mb-2" style="h4" weight="bold">
             {name}
           </Typography>
-          <Typography style="body2">MRP: ${mrp}</Typography>
-          <Typography style="body2">Offer price: ${offerPrice}</Typography>
+          <Typography style="body2">{t("productMrp", { mrp })}</Typography>
+          <Typography style="body2">
+            {t("productOfferPrice", { offerPrice })}
+          </Typography>
         </div>
         <div className="">
           <ProductQuantity {...{ availableQuantity, slug }} />
@@ -43,8 +47,8 @@ const ProductCard = ({
       </div>
       <Alert
         isOpen={shouldShowDeleteAlert}
-        submitButtonLabel="Yes"
-        title="Delete Product"
+        submitButtonLabel={t("yes")}
+        title={t("deleteProduct")}
         onClose={() => setShouldShowDeleteAlert(false)}
         onSubmit={() => {
           removeSelectedQuantity(slug);
